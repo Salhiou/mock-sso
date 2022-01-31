@@ -5,28 +5,30 @@ const { port, scope, username, emailUserId, token, validateToken } = require('./
 
 const oAuthAuthorize = require('./oauth/authorize')
 const oAuthToken = require('./oauth/token')
-const oAuthIntrospect = require('./oauth/introspect')
 const oAuthGetUserDetails = require('./oauth/user')
+const Appointment = require('./resources/appointment')
+const Patient = require('./resources/patient')
 const parseFormData = require('./form-data/parse')
-const ping = require('./healthcheck/ping')
-const userApi = require('./api/user')
 const catchAllErrors = require('./errors/catch-all')
 
 const app = express()
 app.use(morgan('dev'))
+app.use(function(req, res, next) {
+  res.set("Content-Type","application/json; charset=UTF-8");
+  next();
+})
 
-app.get('/o/authorize', oAuthAuthorize())
-app.post('/o/token', parseFormData(), oAuthToken())
-app.post('/o/introspect', oAuthIntrospect(scope, username, emailUserId))
-app.get('/api/v1/user/me', oAuthGetUserDetails(token, validateToken === 'true'))
-app.get('/healthcheck', ping)
-app.get('/api/v1/user/search/', userApi.search)
-app.get('/api/v1/user/introspect/', userApi.introspect)
+app.get('/mh/authorize', oAuthAuthorize())
+app.post('/mh/token', parseFormData(), oAuthToken())
+app.get('/mh/userinfo', oAuthGetUserDetails(token, validateToken === 'true'))
+app.get('/mh/Appointment', Appointment())
+app.get('/mh/Patient/:patientId', Patient())
 
 app.use(catchAllErrors())
 
-const server = app.listen(port, () => {
+const server = app.listen(port, "127.0.0.1", () => {
   console.log(`listening on port: ${port}`)
+
 })
 
 module.exports = server

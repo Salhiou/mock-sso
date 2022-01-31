@@ -1,8 +1,8 @@
+# Taken from https://github.com/uktrade/mock-sso
+
 # Mock SSO
 
 A simple app for testing the cogs involved with SSO integration. Simply replies back with the Bearer you send.
-
-[![Build Status](https://travis-ci.org/uktrade/mock-sso.svg?branch=master)](https://travis-ci.org/uktrade/mock-sso)
 
 ## Table of contents
 - [Kudos](#kudos)
@@ -13,17 +13,14 @@ A simple app for testing the cogs involved with SSO integration. Simply replies 
   - [Tests](#tests)
   - [Linting](#linting)
 - [Endpoints](#endpoints)
-  - [/o/introspect](#get-introspect)
-  - [/o/authorize](#get-oauthorize)
+  - [/mh/authorize](#get-mhauthorize)
     - [Query parameters](#query-parameters)
-  - [/o/token](#post-otoken)
+  - [/mh/token](#post-mhtoken)
     - [Body parameters](#body-parameters)
-  - [/api/v1/user/me/](#/api/v1/user/me/)
-    - [Body parameters](#body-parameters)
-  - [/api/v1/user/search](#/api/v1/user/search/)
-  - [/api/v1/user/introspect](#/api/v1/user/introspect/)
+  - [/mh/userinfo](#get-mhuserinfo)
+  - [/mh/Appointment](#get-mhappointment)
+  - [/mh/Patient/:patientId](#get-mhpatient)
 
-  - [/healthcheck](#get-healthcheck)
 - [Docker](#docker)
   - [Automated build](#automated-build)
 
@@ -33,12 +30,7 @@ Thanks for the thoughts and influence from [r4vi/fakesso](https://github.com/r4v
 ## Environment variables
 | Name                    |  Description                                    |
 |:------------------------|:------------------------------------------------|
-| MOCK_SSO_PORT           | The applications port, defaults to `8080`       |
-| MOCK_SSO_USERNAME       | The SSO username to create an SSO token for.    |
-| MOCK_SSO_EMAIL_USER_ID  | The required SSO email user id.                 |
-| MOCK_SSO_SCOPE          | The required introspect scope                   |
-| MOCK_SSO_TOKEN          | The required user token for optional validation |
-| MOCK_SSO_VALIDATE_TOKEN | Whether to validate the token for the user      |
+| MOCK_SSO_PORT           | The applications port, defaults to `8888`       |
 
 ## Development
 ### Setup
@@ -74,32 +66,10 @@ $ npm run lint
 ```
 
 ## Endpoints
-### /o/introspect
-Introspect uses the [rfc7662](https://tools.ietf.org/html/rfc7662) specification.
 
-A `POST` request to `/o/introspect` will reply back with a 200 and the following the response
-```
-{
-  "active": true,
-  "exp": 2524608000,
-  "scope": <MOCK_SSO_SCOPE>
-}
-```
-If you wish to create an SSO token you can provide the username that you wish to associate the token with via the
-environment variable `MOCK_SSO_USERNAME`. This will then return the following response:
-```
-{
-  "active": true,
-  "exp": 2524608000,
-  "scope": <MOCK_SSO_SCOPE>,
-  "username": <MOCK_SSO_USERNAME>,
-  "email_user_id": <MOCK_SSO_EMAIL_USER_ID>,
-}
-```
 
-### /o/authorize
-A `GET` request to `/o/authorize` will redirect you back to `redirect_uri?state=<state>&code=<code>`
-
+### /mh/authorize
+A `GET` request to `/mh/authorize` will redirect you back to `redirect_uri?state=<state>&code=<code>&code_challenge=<code>`
 #### Query parameters
 | Name          | Description                                 |
 |:--------------|:--------------------------------------------|
@@ -107,99 +77,81 @@ A `GET` request to `/o/authorize` will redirect you back to `redirect_uri?state=
 |`state`        | Your applications stateId                   |
 |`code`         | The token you wish to be sent back from SSO |
 
-### /o/token
-A `POST` request to `/o/token` will reply with you back to you with a JSON response of
+### /mh/token
+
+A `POST` request to `/mh/token` will reply with you back to you with a JSON response of
 ```
 {
   access_token: <code>,
   token_type: 'Bearer',
 }
 ```
-
-### /api/v1/user/me/
-A `GET` request to `/api/v1/user/me/` will reply back to you with:
-
-#### Without an Authorization header or missing Bearer prefix
-
-A `statusCode` of 400 and a JSON response of
-```
-{ error: 'invalid_request' }
-```
-
-#### With the correct header
-
-A `statusCode` of 200 and a JSON response of
-```
-{
-    email: <email>,
-    email_user_id: <string>,
-    user_id: <id>,
-    first_name: <string>,
-    last_name: <string>,
-    related_emails: [],
-    groups: [],
-    permitted_applications: [
-        {
-            key: <key>,
-            url: <url>,
-            name: <string>
-        },
-        ...
-    ],
-    access_profiles: [
-      <string>,
-      ...
-    ]
-}
-```
-
-### /api/v1/user/search/
-A `GET` request to `/api/v1/user/search/` will reply back to you with a `statusCode` of 200 and a JSON response of a list of all users, filtered so that either `first_name` or `last_name` includes the search string passed with as the `autocomplete` parameter.
-
-```
-[
-  {
-    "user_id": <id>,
-    "first_name": <string>,
-    "last_name": <string>,
-    "email": <email>,
-    "email_user_id": <string>
-  }
-  ...
-]
-```
-
-#### Body parameters
-| Name          | Description                                 |
-|:--------------|:--------------------------------------------|
-|`autocomplete`         | The search string you wish to use to find a user |
-
-### /api/v1/user/introspect/
-A `GET` request to `/api/v1/user/instrospect/` will reply back to you with:
-
-#### Without `user_id`, `email_user_id` or `email` query parameters matching an existing user
-A `statusCode` of 404
-
-#### With `user_id`, `email_user_id` or `email` query parameters
-A JSON response containing information about the matching user
-
-```
-{
-    "user_id": <id>,
-    "first_name": <string>,
-    "last_name": <string>,
-    "email": <email>,
-    "email_user_id": <string>
-  }
-```
-
-### /healthcheck
-A `GET` request to `/healthcheck` will reply with you back to you with a 200 and "OK"
-
 #### Body parameters
 | Name          | Description                                 |
 |:--------------|:--------------------------------------------|
 |`code`         | The token you wish to be sent back from SSO |
+
+### /mh/userinfo
+A `GET` request to `/mh/userinfo` will return a dummy user Id
+
+A `statusCode` of 200 and a JSON response of
+```
+{
+ "RCUID": "1234567890",
+}
+```
+
+### /mh/Appointment
+A `GET` request to `/mh/Appointment` will return a dummy Appointment
+
+A `statusCode` of 200 and a JSON response of
+```
+{
+     "resourceType":"Bundle",
+      "id":"f31accf3-b57d-432a-80cd-0376bc16af03",
+     "meta":{"lastUpdated":"2022-01-23T19:16:28.945+00:00"},
+     "type":"searchset",
+     "total":1,
+     "link":[{"relation":"self","url":"http://fhir-demo.bss.h4p.fr/fhir/Appointment?patient=610218472&status=booked"}],
+     "entry":[{"fullUrl":"http://fhir-demo.bss.h4p.fr/fhir/Appointment/27eb21f7-68f4-4b44-8d49-5466e89e8272",
+      "resource":{"resourceType":"Appointment","id":"27eb21f7-68f4-4b44-8d49-5466e89e8272",
+      "meta":{"versionId":"1","lastUpdated":"2022-01-10T16:39:21.238+00:00","source":"#23BLcSVbqpX4xejw"},
+      "identifier":[{"system":"http://toma.h4p.fr/appointment-id","value":"PFEIa5914d074b0f2e25a5f6eaafd628e7e4"}],
+      "status":"booked",
+      "serviceType":[{"coding":[{"system":"http://h4p.fr/knowledge/consultation","code":"20596112","display":"Teleconsultation"}]}],
+      "description":"Teleconsultation",
+      "start":"2022-01-12T00:00:00+01:00",
+      "end":"2022-02-12T00:00:00+01:00",
+      "created":"2022-01-10T17:19:30+01:00",
+      "participant":[{"actor":{"reference":"Patient/610218472"},
+      "required":"required","status":"accepted"},
+      {"actor":{"reference":"Location/bf951286-52d0-43a3-9de4-5a0c6b780e87","display":"L'entité Livi"},
+      "required":"required","status":"accepted"}]},
+      "search":{"mode":"match"}}]
+}
+```
+
+
+### /mh/Patient/:patientId'
+A `GET` request to `/mh/Patient/:patientId'` will return a dummy Patient
+
+A `statusCode` of 200 and a JSON response of
+```
+{
+    "resourceType":"Patient",
+    "id":"610218472",
+    "meta":{"versionId":"1","lastUpdated":"2022-01-10T16:32:49.312+00:00","source":"#vnZPYGWKdIpNTgvG"},
+    "text":{"status":"generated","div":""},
+    "identifier":[{"use":"official","system":"http://malakoffhumanis.com/rcu-id","value":"610218472"},
+    {"use":"usual",
+    "system":"http://toma.h4p.fr/patient-id","value":"107593ae-2969-4139-89ce-772e9eb9d26d"}],
+    "name":[{"use":"official","family":"GUYEN","given":["CHARLES PHUC-ANH"]},{"use":"usual","family":"GUYEN","given":["CHARLES PHUC-ANH"]}],
+    "telecom":[{"system":"phone","value":"+33778196308","use":"mobile"},{"system":"email","value":"test_9316@yopmail.com","use":"home"}],
+    "gender":"male","birthDate":"1972-01-15","address":[{"use":"home","type":"both","text":"6 Rue DE FONTAINE GRELOT, 92340 BOURG LA REINE","line":["6 Rue DE FONTAINE GRELOT"],
+    "city":"BOURG LA REINE","postalCode":"92340","period":{"start":"2014-11-18"}}],
+    "managingOrganization":{"reference":"Organization/b447151d-e356-421b-837d-a42b82c8b9ad","display":"Organization Malakoff Humanis"}
+}
+```
 
 
 ## Docker

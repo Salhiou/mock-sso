@@ -1,11 +1,11 @@
 const supertest = require('supertest')
 const server = require('../../../app')
 
-describe('POST /o/token', () => {
+describe('POST /mh/token', () => {
   beforeEach(async () => {
     this.mockFieldContent = 'mock field content'
     this.response = await supertest(server)
-      .post('/o/token')
+      .post('/mh/token')
       .field('code', this.mockFieldContent)
   })
 
