@@ -21,8 +21,8 @@ app.use(function(req, res, next) {
 app.get('/mh/authorize', oAuthAuthorize())
 app.post('/mh/token', parseFormData(), oAuthToken())
 app.get('/mh/userinfo', oAuthGetUserDetails(token, validateToken === 'true'))
-app.get('/mh/Appointment', Appointment())
-app.get('/mh/Patient/:patientId', Patient())
+app.get('/mh/fhir/Appointment', Appointment())
+app.get('/mh/fhir/Patient/:patientId', Patient())
 
 app.use(catchAllErrors())
 
