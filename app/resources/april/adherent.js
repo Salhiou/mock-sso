@@ -3,76 +3,244 @@ const adherent = () => {
     res.set("Content-Type","application/json; charset=UTF-8");
 
     const response = {
-   "clients":[
-      {
-         "codeMarque":"string",
-         "referenceAdherent":"1234567890111",
-         "numeroPersonne":"0987654321000",
-         "numeroPersonneBeneficiaire":"1234509876777",
-         "rolePersonne":"string",
-         "civilitePersonne":"string",
-         "nomPersonne":"GUYENAPRIL",
-         "prenomPersonne":"CHARLES PHUC-ANH APRIL",
-         "dateNaissance":"1973-02-16",
-         "codePostal":"92340",
-         "marche":"string",
-         "gammemarche":"string",
-         "libellegammemarche":"string",
-         "etape":"string",
-         "estBloqueIntrapril":"string",
-         "statutClient":"string",
-         "referenceCourtier":"string",
-         "numeroSecuriteSociale":"string",
-         "coordonnees":{
-            "adressePostale":{
-               "adresse1":"6 Rue DE FONTAINE GRELOT",
-               "adresse2":"string",
-               "adresse3":"string",
-               "adresse4":"string",
-               "codePostal":"92340",
-               "ville":"BOURG LA REINE",
-               "pays":"France",
-               "estAdressePartagee":true
+
+    "clients": [
+
+        {
+
+            "codeMarque": "APRIL",
+
+            "referenceAdherent": "330093900",
+
+            "numeroPersonne": "0011805220",
+
+            "numeroPersonneBeneficiaire": "0011805220",
+
+            "rolePersonne": "CLI",
+
+            "civilitePersonne": "Mr",
+
+            "nomPersonne": "LEHAIRE",
+
+            "prenomPersonne": "Philippe",
+
+            "dateNaissance": "1964-02-21",
+
+            "codePostal": "49660",
+
+            "marche": "SAN",
+
+            "gammemarche": "SANSAN",
+
+            "libellegammemarche": "SAN Santé",
+
+            "etape": "APV",
+
+            "estBloqueIntrapril": "N",
+
+            "statutClient": "Adhérent Particulier",
+
+            "referenceCourtier": "51366",
+
+            "numeroSecuriteSociale": "1640275112362",
+
+            "coordonnees": {
+
+                "adressePostale": {
+
+                    "adresse1": "",
+
+                    "adresse2": "",
+
+                    "adresse3": "LD LA PAPINIERE",
+
+                    "adresse4": "",
+
+                    "codePostal": "49660",
+
+                    "ville": "TORFOU",
+
+                    "pays": "FRANCE",
+
+                    "estAdressePartagee": false
+
+                },
+
+                "telephones": [
+
+                    {
+
+                        "telephone": "0999999999",
+
+                        "type": "TLDOM"
+
+                    },
+
+                    {
+
+                        "telephone": "0799999999",
+
+                        "type": "TLPOR"
+
+                    }
+
+                ],
+
+                "emails": [
+
+                    {
+
+                        "email": "AprilT.EtudesTESTSSM@april.fr",
+
+                        "type": "MLPRI",
+
+                        "estRejete": false
+
+                    },
+
+                    {
+
+                        "email": "AprilT.EtudesTESTSSM@april.fr",
+
+                        "type": "MLSEC",
+
+                        "estRejete": false
+
+                    }
+
+                ]
+
             },
-            "telephones":[
-               {
-                  "telephone":"+33778196309",
-                  "type":"mobile"
-               }
-            ],
-            "emails":[
-               {
-                  "email":"test_april@yopmail.com",
-                  "type":"string",
-                  "estRejete":false
-               }
+
+            "ayantsdroit": [
+
+                {
+
+                    "codeMarque": "APRIL",
+
+                    "referenceAdherent": "330093900",
+
+                    "numeroPersonne": "0011805220",
+
+                    "numeroPersonneBeneficiaire": "0011873473",
+
+                    "rolePersonne": "CLI",
+
+                    "civilitePersonne": "Mle",
+
+                    "nomPersonne": "LEHAIRE",
+
+                    "prenomPersonne": "Audrey",
+
+                    "dateNaissance": "1994-04-13",
+
+                    "codePostal": "",
+
+                    "marche": "SAN",
+
+                    "gammemarche": "SANSAN",
+
+                    "libellegammemarche": "SAN Santé",
+
+                    "etape": "APV",
+
+                    "estBloqueIntrapril": "N",
+
+                    "statutClient": "Assuré",
+
+                    "referenceCourtier": "51366",
+
+                    "numeroSecuriteSociale": "2670745234160"
+
+                },
+
+                {
+
+                    "codeMarque": "APRIL",
+
+                    "referenceAdherent": "330093900",
+
+                    "numeroPersonne": "0011805220",
+
+                    "numeroPersonneBeneficiaire": "0011873477",
+
+                    "rolePersonne": "CLI",
+
+                    "civilitePersonne": "Mle",
+
+                    "nomPersonne": "LEHAIRE",
+
+                    "prenomPersonne": "Emilie",
+
+                    "dateNaissance": "1998-11-26",
+
+                    "codePostal": "",
+
+                    "marche": "SAN",
+
+                    "gammemarche": "SANSAN",
+
+                    "libellegammemarche": "SAN Santé",
+
+                    "etape": "APV",
+
+                    "estBloqueIntrapril": "N",
+
+                    "statutClient": "Assuré",
+
+                    "referenceCourtier": "51366",
+
+                    "numeroSecuriteSociale": "1640275112362"
+
+                },
+
+                {
+
+                    "codeMarque": "APRIL",
+
+                    "referenceAdherent": "330093900",
+
+                    "numeroPersonne": "0011805220",
+
+                    "numeroPersonneBeneficiaire": "0011873479",
+
+                    "rolePersonne": "CLI",
+
+                    "civilitePersonne": "Mle",
+
+                    "nomPersonne": "LEHAIRE",
+
+                    "prenomPersonne": "Charlotte",
+
+                    "dateNaissance": "2001-09-10",
+
+                    "codePostal": "",
+
+                    "marche": "SAN",
+
+                    "gammemarche": "SANSAN",
+
+                    "libellegammemarche": "SAN Santé",
+
+                    "etape": "APV",
+
+                    "estBloqueIntrapril": "N",
+
+                    "statutClient": "Assuré",
+
+                    "referenceCourtier": "51366",
+
+                    "numeroSecuriteSociale": "1640275112362"
+
+                }
+
             ]
-         },
-         "ayantsdroit":[
-            {
-               "codeMarque":"string",
-               "referenceAdherent":"string",
-               "numeroPersonne":"string",
-               "numeroPersonneBeneficiaire":"string",
-               "rolePersonne":"string",
-               "civilitePersonne":"string",
-               "nomPersonne":"string",
-               "prenomPersonne":"string",
-               "dateNaissance":"2022-01-25",
-               "codePostal":"string",
-               "marche":"string",
-               "gammemarche":"string",
-               "libellegammemarche":"string",
-               "etape":"string",
-               "estBloqueIntrapril":"string",
-               "statutClient":"string",
-               "referenceCourtier":"string",
-               "numeroSecuriteSociale":"string"
-            }
-         ]
-      }
-   ]
-   };
+
+        }
+
+    ]
+
+};
     
     return res.status(200).send(response)
   }

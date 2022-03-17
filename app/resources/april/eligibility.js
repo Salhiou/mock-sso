@@ -4,15 +4,25 @@ const eligibility = () => {
 
    const response = {
 
-		"statut":"OK",
+  "statutdemande": "OK",
 
-		"partenaire":"APRIL",
+  "msgstatut": "",
 
-		"entite":"APRIL Santé MIX",
+  "partenaire": "APRIL",
 
-		"erreur":false
+  "produitcomm": "ASPSAN0110",
 
-	};
+  "libprodcomm": "APRIL Santé MIX",
+
+  "codeproduit": "MIX0150",
+
+  "nom": "LEPAINTEUR",
+
+  "prenom": "Louis",
+
+  "dateNaissance": "1945-04-24"
+
+};
     
     return res.status(200).send(response)
   }

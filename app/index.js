@@ -29,8 +29,8 @@ app.get('/mh/fhir/Appointment', Appointment())
 app.get('/mh/fhir/Patient/:patientId', Patient())
 app.post('/mh/fhir/Encounter', parseFormData(), EncounterCreate())
 app.put('/mh/fhir/Encounter/:id', parseFormData(), EncounterUpdate())
-app.get('/april/v1/clients/adherents', Adherent())
-app.get('/april/v1/verifierdroitsutilisateur', Eligibility())
+app.get('/april/fr/enrollment-tiers/teleconsultation/individual-healthcare/v1/clients/adherents', Adherent())
+app.get('/april/fr/enrollment-tiers/teleconsultation/individual-healthcare/v1/teleselections/eligibilites', Eligibility())
 
 
 app.use(catchAllErrors())
